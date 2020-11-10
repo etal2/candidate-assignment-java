@@ -11,4 +11,12 @@ public interface Model {
   public Set<Canton> getCantons();
 
   public Set<District> getDistricts();
+
+	public Canton getCantonByCode(String cantonCode);
+
+  public District getDistrictByNumber(String districtNumber);
+  
+  public PoliticalCommunity getPoliticalCommunityByNumber(String politicalCommunityNumber);
+
+  public PostalCommunity getPostalCommunityByZip(String zipCode, String zipCodeAddition);
 }

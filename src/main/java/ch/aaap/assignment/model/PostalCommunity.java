@@ -1,5 +1,7 @@
 package ch.aaap.assignment.model;
 
+import java.util.Set;
+
 public interface PostalCommunity {
 
   public String getZipCode();
@@ -8,5 +10,7 @@ public interface PostalCommunity {
 
   public String getName();
 
-  // TODO add more features here representing the relations
+  public String getCantonCode();
+
+  public Set<String> getPoliticalCommunityNumbers();
 }
