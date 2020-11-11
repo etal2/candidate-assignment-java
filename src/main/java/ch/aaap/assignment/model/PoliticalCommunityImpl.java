@@ -28,5 +28,4 @@ public class PoliticalCommunityImpl implements PoliticalCommunity {
 
   @Singular
   private Set<PostalCommunityKey> postalCommunityKeys;
-
 }

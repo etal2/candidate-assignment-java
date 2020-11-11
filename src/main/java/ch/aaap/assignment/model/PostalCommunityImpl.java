@@ -24,5 +24,4 @@ public class PostalCommunityImpl implements PostalCommunity {
 
   @Singular
   private Set<String> politicalCommunityNumbers;
-
 }

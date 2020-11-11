@@ -25,6 +25,7 @@ public class ModelFactory {
 
   public ModelFactory(Set<CSVPoliticalCommunity> politicalCommunities,
       Set<CSVPostalCommunity> postalCommunities) {
+          
     rawPoliticalCommunities = politicalCommunities;
     rawPostalCommunities = postalCommunities;
   }
@@ -111,17 +112,19 @@ public class ModelFactory {
   }
 
   private void processDistrict(CSVPoliticalCommunity csvPoliticalCom) {
-    districtByNumber.put(csvPoliticalCom.getDistrictNumber(), DistrictImpl.builder()
+    districtByNumber.computeIfAbsent(csvPoliticalCom.getDistrictNumber(), key -> {
+      return DistrictImpl.builder()
         .name(csvPoliticalCom.getDistrictName())
-        .number(csvPoliticalCom.getDistrictNumber())
-    );
+        .number(csvPoliticalCom.getDistrictNumber());
+    });
   }
 
   private void processCanton(CSVPoliticalCommunity csvPoliticalCom) {
-    cantonByCode.put(csvPoliticalCom.getCantonCode(), CantonImpl.builder()
+    cantonByCode.computeIfAbsent(csvPoliticalCom.getCantonCode(), key -> {
+      return CantonImpl.builder()
         .name(csvPoliticalCom.getCantonName())
-        .code(csvPoliticalCom.getCantonCode())
-    );
+        .code(csvPoliticalCom.getCantonCode());
+    });
   }
 
   private PostalCommunityImplBuilder toPostalCommunityBuilder(CSVPostalCommunity csvPostalCom) {
@@ -133,12 +136,13 @@ public class ModelFactory {
 
   private PoliticalCommunityImplBuilder toPoliticalCommunityBuilder(
       CSVPoliticalCommunity csvPoliticalCom) {
+    
     return PoliticalCommunityImpl.builder()
-          .name(csvPoliticalCom.getName())
-          .number(csvPoliticalCom.getNumber())
-          .shortName(csvPoliticalCom.getShortName())
-          .lastUpdate(csvPoliticalCom.getLastUpdate())
-          .cantonCode(csvPoliticalCom.getCantonCode())
-          .districtNumber(csvPoliticalCom.getDistrictNumber());
+        .name(csvPoliticalCom.getName())
+        .number(csvPoliticalCom.getNumber())
+        .shortName(csvPoliticalCom.getShortName())
+        .lastUpdate(csvPoliticalCom.getLastUpdate())
+        .cantonCode(csvPoliticalCom.getCantonCode())
+        .districtNumber(csvPoliticalCom.getDistrictNumber());
   }
 }

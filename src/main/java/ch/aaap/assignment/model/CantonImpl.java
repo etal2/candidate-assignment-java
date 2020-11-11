@@ -21,5 +21,4 @@ public class CantonImpl implements Canton {
 
   @Singular
   private Set<String> politicalCommunityNumbers;
-
 }
