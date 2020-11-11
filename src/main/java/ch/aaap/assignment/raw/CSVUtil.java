@@ -14,7 +14,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 /**
- * This is a helper class to read the provided CSV
+ * This is a helper class to read the provided CSV.
  *
  * <p>You don't have adapt anything within this class!
  */

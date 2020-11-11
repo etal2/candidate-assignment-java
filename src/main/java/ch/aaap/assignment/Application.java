@@ -1,11 +1,12 @@
 package ch.aaap.assignment;
 
+import ch.aaap.assignment.model.Canton;
+import ch.aaap.assignment.model.District;
 import ch.aaap.assignment.model.Model;
 import ch.aaap.assignment.model.ModelFactory;
 import ch.aaap.assignment.model.PoliticalCommunity;
 import ch.aaap.assignment.model.PostalCommunity;
-import ch.aaap.assignment.model.Canton;
-import ch.aaap.assignment.model.District;
+
 import ch.aaap.assignment.raw.CSVPoliticalCommunity;
 import ch.aaap.assignment.raw.CSVPostalCommunity;
 import ch.aaap.assignment.raw.CSVUtil;
@@ -25,7 +26,7 @@ public class Application {
     new Application();
   }
 
-  /** Reads the CSVs and initializes a in memory model */
+  /** Reads the CSVs and initializes a in memory model. */
   private void initModel() {
     Set<CSVPoliticalCommunity> politicalCommunities = CSVUtil.getPoliticalCommunities();
     Set<CSVPostalCommunity> postalCommunities = CSVUtil.getPostalCommunities();
@@ -33,44 +34,57 @@ public class Application {
     model = new ModelFactory(politicalCommunities, postalCommunities).build();
   }
 
-  /** @return model */
+  /**
+   *  Gts the model.
+   *  @return {@link Model} 
+   */
   public Model getModel() {
     return model;
   }
 
   /**
+   * Get the number of political communities in a canton.
    * @param cantonCode of a canton (e.g. ZH)
    * @return amount of political communities in given canton
    */
   public long getAmountOfPoliticalCommunitiesInCanton(String cantonCode) {
     Canton canton = getModel().getCantonByCode(cantonCode);
-    if (canton == null) throw new IllegalArgumentException(cantonCode);
+    if (canton == null) {
+      throw new IllegalArgumentException(cantonCode);
+    }
     return canton.getPoliticalCommunityNumbers().size();
   }
 
   /**
+   * Get amount of districts in given canton.
    * @param cantonCode of a canton (e.g. ZH)
-   * @return amount of districts in given canton
+   * @return amount of districts
    */
   public long getAmountOfDistrictsInCanton(String cantonCode) {
     Canton canton = model.getCantonByCode(cantonCode);
-    if (canton == null) throw new IllegalArgumentException(cantonCode);
+    if (canton == null) {
+      throw new IllegalArgumentException(cantonCode);
+    }
     return canton.getDistrictNumbers().size();
   }
 
   /**
+   * Get amount of political communities in given district.
    * @param districtNumber of a district (e.g. 101)
-   * @return amount of political communities in given district
+   * @return number of political communities
    */
   public long getAmountOfPoliticalCommunitiesInDistrict(String districtNumber) {
     District district = model.getDistrictByNumber(districtNumber);
-    if (district == null) throw new IllegalArgumentException(districtNumber);
+    if (district == null) {
+      throw new IllegalArgumentException(districtNumber);
+    }
     return district.getPoliticalCommunityNumbers().size();
   }
 
   /**
+   * Get districts that belongs to specified zip code.
    * @param zipCode 4 digit zip code
-   * @return district that belongs to specified zip code
+   * @return matching districts
    */
   public Set<String> getDistrictsForZipCode(String zipCode) {
     return model.getPostalCommunities().stream()
@@ -85,10 +99,13 @@ public class Application {
   }
 
   /**
+   * Get date of lastUpdate for a given postal community name.
+   * Handles multiple political communities belonging to the same postal commuity
    * @param postalCommunityName name
-   * @return lastUpdate of the political community by a given postal community name
+   * @return lastUpdate date
    */
-  public LocalDate getLastUpdateOfPoliticalCommunityByPostalCommunityName(String postalCommunityName) {
+  public LocalDate getLastUpdateOfPoliticalCommunityByPostalCommunityName(
+      String postalCommunityName) {
     return model.getPostalCommunities().stream()
       .filter(pc -> pc.getName().equals(postalCommunityName))
       .map(PostalCommunity::getPoliticalCommunityNumbers)

@@ -12,7 +12,7 @@ public interface Model {
 
   public Set<District> getDistricts();
 
-	public Canton getCantonByCode(String cantonCode);
+  public Canton getCantonByCode(String cantonCode);
 
   public District getDistrictByNumber(String districtNumber);
   
